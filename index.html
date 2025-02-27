@@ -10,9 +10,9 @@
     <div style="text-align: center; padding: 100px;"> 
         <canvas width="800" height="600" style="border:1px solid black; background-color: black;"></canvas>
     </div>
-    <form method="#" action="#" class="highscore">
-        <input type="text" placeholder="Enter your name for High Score" style="position:absolute; left:850px; top:450px; width:200px;" />
-        <button style="position:absolute; left:900px; top: 500px; width:100px;">Submit</button>
+    <form method="POST" action="/addtolist" class="highscore">
+        <input  type="text" id = "playerName" name="playerName" placeholder="Enter your name for High Score" style="position:absolute; left:850px; top:450px; width:200px;" />
+        <button type="submit" style="position:absolute; left:900px; top: 500px; width:100px;">Submit</button>
     </form>
     <script src="script.js"></script>
 </body>
