@@ -9,6 +9,7 @@ const port = 5000;
 
 const Score = require("./models/HighScore");
 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
 
@@ -22,13 +23,14 @@ db.once("open", ()=>{
     console.log("Connected to MongoDB Database");
 });
 
-app.get("/score", async (req, res)=>{
-    try{
-        const score = await Score.find();
-        res.json(score);
-        console.log(score);
-    }catch(err){
-        res.status(500).json({error:"Failed to get score."});
+app.get("/score", async (req, res) => {
+    try {
+        const scores = await Score.find().sort({ score: -1 }); 
+        console.log("Scores Retrieved:", scores); 
+        res.json(scores);
+    } catch (err) {
+        console.error("Database Fetch Error:", err); 
+        res.status(500).json({ error: "Failed to get score." });
     }
 });
 
@@ -48,6 +50,10 @@ app.post("/addtolist", async (req,res)=>{
 
 app.get("/",(req,res)=>{
     res.sendFile(path.join(__dirname,"./index.html"))
+});
+
+app.get("/highscores", (req, res) => {
+    res.sendFile(path.join(__dirname, "highscores.html"));
 });
 
 app.listen(port,function(){

@@ -285,35 +285,59 @@ gameStates[1] = function(){
 }
 
 //---Game Over Screen---
-gameStates[2] = function(){
+gameStates[2] = async function(){
     highScoreElements.style.display = "block";
-    if(score > highScore){
-        highScore = score;
-        ctx.save();
-        ctx.font = "30px Arial";
-        ctx.fillStyle = "white";
-        ctx.textAlign = "center"
-        ctx.fillText("Game Over, Your score was: " + score.toString(), c.width/2, c.height/2 - 60);
-        ctx.fillText("Your New High Score is: " + highScore.toString() , c.width/2, c.height/2 - 30);
-        ctx.fillText("New Record!!", c.width/2, c.height/2 );
-        ctx.font = "15px Arial";
-        ctx.fillText("Press Enter to Start", c.width/2, c.height/2 + 20);
-        ctx.restore();
 
-    }
-    else{
+    ctx.clearRect(0, 0, c.width, c.height); 
+    ctx.drawImage(bgMain, 0, 0, c.width, c.height);
+
+    ctx.save();
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.fillText("Game Over", c.width / 2, 100);
+    ctx.fillText("Your Score: " + score, c.width / 2, 150);
+
+    ctx.font = "20px Arial";
+
+    ctx.restore();
+
+    try {
+        const response = await fetch("/score");
+        const scores = await response.json();
+
         ctx.save();
-        ctx.font = "30px Arial";
+        ctx.font = "20px Arial";
         ctx.fillStyle = "white";
-        ctx.textAlign = "center"
-        ctx.fillText("Game Over, Your score was: " + score.toString(), c.width/2, c.height/2 - 60);
-        ctx.fillText("Your high Score is: " + highScore.toString(), c.width/2, c.height/2 - 30);
-        ctx.font = "15px Arial";
-        ctx.fillText("Press Enter to Start", c.width/2, c.height/2 + 20);
+        ctx.textAlign = "center";
+
+        ctx.fillText("Top High Scores", c.width / 2, 250);
+
+        // Display the top 5 scores
+        scores.slice(0, 5).forEach((entry, index) => {
+            ctx.fillText(`${index + 1}. ${entry.playerName} - ${entry.score}`, c.width / 2, 280 + index * 30);
+        });
+
+        ctx.restore();
+    } catch (error) {
+        ctx.save();
+        ctx.font = "20px Arial";
+        ctx.fillStyle = "red";
+        ctx.textAlign = "center";
+        ctx.fillText("Failed to Load High Scores", c.width / 2, 250);
         ctx.restore();
     }
 
-    
+    document.getElementById("inputForm").addEventListener("submit", function (event) {
+        const name = document.getElementById("playerName").value;
+
+        if (!name) {
+            alert("Please enter your name!");
+            event.preventDefault();
+        } else {
+            document.getElementById("score").value = score;
+        }
+    });
 }
 
 

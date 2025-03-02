@@ -5,6 +5,6 @@ const scoreSchema = new mongoose.Schema({
     score:Number
 });
 
-const Score = mongoose.model("Score", scoreSchema, "Player");
+const Score = mongoose.model("HighScore", scoreSchema);
 
 module.exports = Score;

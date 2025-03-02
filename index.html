@@ -10,10 +10,12 @@
     <div style="text-align: center; padding: 100px;"> 
         <canvas width="800" height="600" style="border:1px solid black; background-color: black;"></canvas>
     </div>
-    <form method="POST" action="/addtolist" class="highscore">
-        <input  type="text" id = "playerName" name="playerName" placeholder="Enter your name for High Score" style="position:absolute; left:850px; top:450px; width:200px;" />
+    <form method="POST" action="/addtolist" class="highscore" id="inputForm">
+        <input type="text" id="playerName" name="playerName" style="position:absolute; left:850px; top:450px; width:200px;" placeholder="Enter your name for High Score" required />
+        <input type="hidden" id="score" name="score" />
         <button type="submit" style="position:absolute; left:900px; top: 500px; width:100px;">Submit</button>
     </form>
     <script src="script.js"></script>
+    <a style="color: white;" href="highscores.html">View HighScores</a>
 </body>
 </html>
